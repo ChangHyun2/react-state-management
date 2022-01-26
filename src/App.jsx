@@ -2,10 +2,12 @@ import React, { lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import { RecruitsContextProvider } from "./context/recruits";
+import { RecruitsContext2Provider } from "./context/recruits2";
 
 const Home = lazy(() => import("./pages/Home"));
 const PropDrillingExample = lazy(() => import("./pages/PropDrillingExample"));
 const ContextApiExample = lazy(() => import("./pages/ContextApiExample"));
+const ContextApiExample2 = lazy(() => import("./pages/ContextApiExample2"));
 const ReduxExample = lazy(() => import("./pages/ReduxExample"));
 
 export default function App() {
@@ -21,6 +23,14 @@ export default function App() {
               <RecruitsContextProvider>
                 <ContextApiExample />
               </RecruitsContextProvider>
+            }
+          />
+          <Route
+            path="context-api2/*"
+            element={
+              <RecruitsContext2Provider>
+                <ContextApiExample2 />
+              </RecruitsContext2Provider>
             }
           />
           <Route path="redux/*" element={<ReduxExample />} />

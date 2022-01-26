@@ -16,6 +16,10 @@ const pages = [
     to: "/context-api",
   },
   {
+    title: "context api2",
+    to: "/context-api2",
+  },
+  {
     title: "redux",
     to: "/redux",
   },
