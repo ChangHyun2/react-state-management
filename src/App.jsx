@@ -1,6 +1,7 @@
 import React, { lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
+import { RecruitsContextProvider } from "./context/recruits";
 
 const Home = lazy(() => import("./pages/Home"));
 const PropDrillingExample = lazy(() => import("./pages/PropDrillingExample"));
@@ -14,7 +15,14 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="prop-drilling/*" element={<PropDrillingExample />} />
-          <Route path="context-api/*" element={<ContextApiExample />} />
+          <Route
+            path="context-api/*"
+            element={
+              <RecruitsContextProvider>
+                <ContextApiExample />
+              </RecruitsContextProvider>
+            }
+          />
           <Route path="redux/*" element={<ReduxExample />} />
         </Route>
         <Route path="*" element={<div>not found</div>} />

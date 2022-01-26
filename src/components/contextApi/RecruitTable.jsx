@@ -1,9 +1,18 @@
-import styled from "styled-components";
-import RecruitApi from "../../api/recruit";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
-function RecruitTableItem({ recruit, setRecruits }) {
+import RecruitApi from "../../api/recruit";
+import { useRecruitsContext } from "../../context/recruits";
+
+function RecruitTableItem({ recruit }) {
   const navigate = useNavigate();
+  const {
+    helpers: { deleteRecruit, updateRecruit },
+  } = useRecruitsContext();
+
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isTogglingPublishStatus, setIsTogglingPublishStatus] = useState(false);
 
   const {
     id,
@@ -22,31 +31,30 @@ function RecruitTableItem({ recruit, setRecruits }) {
 
   const handleClickDeleteButton = async (e) => {
     e.stopPropagation();
+    setIsDeleting(true);
 
     try {
       await RecruitApi.delete(id);
-
-      setRecruits((prev) => prev.filter((recruit) => recruit.id !== id));
+      deleteRecruit(id);
     } catch (e) {
       console.error(e);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
   const handleClickIsPublishedToggler = async (e) => {
     e.stopPropagation();
+    setIsTogglingPublishStatus(true);
+    const updated = { isPublished: !recruit.isPublished };
 
     try {
-      await RecruitApi.patch(id, { isPublished: !recruit.isPublished });
-
-      setRecruits((prev) =>
-        prev.map((recruit) =>
-          recruit.id === id
-            ? { ...recruit, isPublished: !recruit.isPublished }
-            : recruit
-        )
-      );
+      await RecruitApi.patch(id, updated);
+      updateRecruit(id, updated);
     } catch (e) {
       console.error(e);
+    } finally {
+      setIsTogglingPublishStatus(false);
     }
   };
 
@@ -62,17 +70,23 @@ function RecruitTableItem({ recruit, setRecruits }) {
       }`}</td>
       <td>
         <button onClick={handleClickIsPublishedToggler} className="delete">
-          {isPublished ? "on" : "off"}
+          {isTogglingPublishStatus ? "updating..." : isPublished ? "on" : "off"}
         </button>
       </td>
       <td>
-        <button onClick={handleClickDeleteButton}>del</button>
+        <button onClick={handleClickDeleteButton}>
+          {isDeleting ? "deleting..." : "del"}
+        </button>
       </td>
     </tr>
   );
 }
 
-export default function RecruitTable({ recruits, setRecruits }) {
+export default function RecruitTable() {
+  const {
+    state: { recruits },
+  } = useRecruitsContext();
+
   return (
     <StyledTable>
       <thead>
@@ -92,12 +106,8 @@ export default function RecruitTable({ recruits, setRecruits }) {
         </tr>
       </thead>
       <tbody>
-        {recruits.map((recruit) => (
-          <RecruitTableItem
-            key={recruit.id}
-            recruit={recruit}
-            setRecruits={setRecruits}
-          />
+        {recruits?.map((recruit) => (
+          <RecruitTableItem key={recruit.id} recruit={recruit} />
         ))}
       </tbody>
     </StyledTable>
