@@ -167,7 +167,7 @@ export default class RecruitApi {
             });
           }
 
-          res();
+          res(JSON.parse(JSON.stringify(updated)));
         })
     );
   }
