@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import RecruitApi from "../../../api/recruit";
+import RecruitsApi from "../../../api/recruits";
 
 const initialState = {
   data: [],
@@ -10,20 +10,20 @@ const initialState = {
 
 export const fetchRecruits = createAsyncThunk(
   "recruits/fetchRecruits",
-  async (payload, { getState }) => {
+  async (_, { getState }) => {
     const { loading } = getState().recruits;
 
     if (loading !== "pending") return;
 
-    const recruits = await RecruitApi.get();
+    const recruits = await RecruitsApi.get();
     return recruits;
   }
 );
 
 export const addRecruit = createAsyncThunk(
   "recruits/addRecruit",
-  async (payload) => {
-    const created = await RecruitApi.post(payload);
+  async (formValues) => {
+    const created = await RecruitsApi.post(formValues);
     return created;
   }
 );
@@ -31,18 +31,16 @@ export const addRecruit = createAsyncThunk(
 export const updateRecruit = createAsyncThunk(
   "recruits/updateRecruit",
   async ({ id, data }) => {
-    const updated = await RecruitApi.patch(id, data);
-
-    return { id, recruit: updated };
+    const updated = await RecruitsApi.patch(id, data);
+    return updated;
   }
 );
 
 export const deleteRecruit = createAsyncThunk(
   "recruits/deleteRecruit",
-  async (payload) => {
-    await RecruitApi.delete(payload);
-
-    return payload;
+  async (id) => {
+    await RecruitsApi.delete(id);
+    return id;
   }
 );
 
@@ -82,12 +80,12 @@ export const recruitsSlice = createSlice({
       })
       .addCase(updateRecruit.pending, (state, action) => {})
       .addCase(updateRecruit.fulfilled, (state, action) => {
-        const { id, recruit } = action.payload;
+        const updated = action.payload;
 
         const updatedIndex = state.data.findIndex(
-          (recruit) => recruit.id === id
+          (recruit) => recruit.id === updated.id
         );
-        state.data[updatedIndex] = recruit;
+        state.data[updatedIndex] = updated;
       })
       .addCase(updateRecruit.rejected, (state, action) => {
         state.error = action.error;

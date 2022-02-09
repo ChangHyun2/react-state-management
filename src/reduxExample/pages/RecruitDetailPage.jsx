@@ -1,14 +1,20 @@
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
-import RecruitCard from "../components/RecruitCard";
+import RecruitCard from "../../components/RecruitCard";
 import Link from "../../components/Link";
 
 export default function RecruitDetailPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const recruits = useSelector((state) => state.recruits.data);
   const recruit = recruits.find((recruit) => recruit.id === id);
+
+  if (!recruit) {
+    navigate("../");
+    return null;
+  }
 
   return (
     <>
