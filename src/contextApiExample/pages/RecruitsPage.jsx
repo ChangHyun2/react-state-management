@@ -1,4 +1,4 @@
-import RecruitTable from "../components/RecruitTable";
+import RecruitsTable from "../components/RecruitsTable";
 import Link from "../../components/Link";
 
 export default function RecruitsPage() {
@@ -8,7 +8,7 @@ export default function RecruitsPage() {
         추가
       </Link>
       <hr />
-      <RecruitTable />
+      <RecruitsTable />
     </>
   );
 }

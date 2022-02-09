@@ -2,10 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import RecruitApi from "../../api/recruit";
-import { useRecruitsContext } from "../context/recruits";
+import RecruitsApi from "../../../api/recruits";
+import { useRecruitsContext } from "../../context/recruits";
 
-function RecruitTableItem({ recruit }) {
+export default function RecruitTableItem({ recruit }) {
   const navigate = useNavigate();
   const {
     helpers: { deleteRecruit, updateRecruit },
@@ -34,7 +34,7 @@ function RecruitTableItem({ recruit }) {
     setIsDeleting(true);
 
     try {
-      await RecruitApi.delete(id);
+      await RecruitsApi.delete(id);
       deleteRecruit(id);
     } catch (e) {
       console.error(e);
@@ -49,7 +49,7 @@ function RecruitTableItem({ recruit }) {
     const updated = { isPublished: !recruit.isPublished };
 
     try {
-      await RecruitApi.patch(id, updated);
+      await RecruitsApi.patch(id, updated);
       updateRecruit(id, updated);
     } catch (e) {
       console.error(e);
@@ -59,7 +59,7 @@ function RecruitTableItem({ recruit }) {
   };
 
   return (
-    <tr key={id} onClick={handleClick}>
+    <StyledTableItem key={id} onClick={handleClick}>
       <td>{id}</td>
       <td className="title">{title}</td>
       <td>{recruit_type}</td>
@@ -78,55 +78,16 @@ function RecruitTableItem({ recruit }) {
           {isDeleting ? "deleting..." : "del"}
         </button>
       </td>
-    </tr>
+    </StyledTableItem>
   );
 }
 
-export default function RecruitTable() {
-  const {
-    state: { recruits },
-  } = useRecruitsContext();
-
-  return (
-    <StyledTable>
-      <thead>
-        <tr>
-          {[
-            "id",
-            "채용 제목",
-            "채용 전형",
-            "직군",
-            "경력",
-            "채용 기간",
-            "공고 상태",
-            "삭제",
-          ].map((title) => (
-            <th key={title}>{title}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {recruits?.map((recruit) => (
-          <RecruitTableItem key={recruit.id} recruit={recruit} />
-        ))}
-      </tbody>
-    </StyledTable>
-  );
-}
-
-const StyledTable = styled.table`
-  width: 100%;
-  font-size: 14px;
-  word-break: break-all;
-  border-collapse: collapse;
-
-  tr {
-    th,
-    td {
-      width: calc(100% / 10);
-      border: 1px solid;
-      padding: 10px;
-      text-align: center;
-    }
+const StyledTableItem = styled.tr`
+  th,
+  td {
+    width: calc(100% / 10);
+    border: 1px solid;
+    padding: 10px;
+    text-align: center;
   }
 `;

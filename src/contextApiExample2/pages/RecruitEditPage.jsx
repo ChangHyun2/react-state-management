@@ -1,16 +1,36 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
-import { useRecruitsContext } from "../context/recruits";
-import RecruitForm from "../components/RecruitForm";
+import RecruitForm from "../../components/RecruitForm";
 import Link from "../../components/Link";
 
+import { useRecruitsContext } from "../context/recruits";
+
 export default function RecruitEditPage() {
+  const navigate = useNavigate();
+  const { id } = useParams();
   const {
     state: { recruits },
+    helpers: { updateRecruit },
   } = useRecruitsContext();
-  const { id } = useParams();
 
   const recruit = recruits.find((recruit) => recruit.id === id);
+
+  if (!recruit) {
+    navigate("../");
+    return null;
+  }
+
+  const handleSubmit = async (formValues, setIsSubmitting) => {
+    try {
+      setIsSubmitting(true);
+      await updateRecruit(id, formValues);
+      navigate(`../detail/${id}`);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <>
@@ -18,7 +38,7 @@ export default function RecruitEditPage() {
         뒤로
       </Link>
       <hr />
-      <RecruitForm recruit={recruit} />
+      <RecruitForm recruit={recruit} onSubmit={handleSubmit} />
     </>
   );
 }

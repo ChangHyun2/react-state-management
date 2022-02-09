@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
-import RecruitApi from "../../api/recruit";
+import RecruitsApi from "../../api/recruits";
 import { useRecruitsContext } from "../context/recruits";
+
 import RecruitsPage from "./RecruitsPage";
 import RecruitCreatePage from "./RecruitCreatePage";
 import RecruitEditPage from "./RecruitEditPage";
@@ -16,7 +17,7 @@ export default function ContextApiExample() {
   useEffect(() => {
     (async () => {
       try {
-        const recruits = await RecruitApi.get();
+        const recruits = await RecruitsApi.get();
 
         setRecruits(recruits);
       } catch (e) {

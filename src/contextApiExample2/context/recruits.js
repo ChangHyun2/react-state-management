@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 
-import RecruitApi from "../../api/recruit";
+import RecruitsApi from "../../api/recruits";
 
 const RecruitsContext2 = createContext();
 
@@ -8,23 +8,24 @@ export const RecruitsContext2Provider = ({ children }) => {
   const [recruits, setRecruits] = useState([]);
 
   const addRecruit = async (data) => {
-    const created = await RecruitApi.post(data);
+    const created = await RecruitsApi.post(data);
 
     setRecruits((prev) => [...prev, created]);
   };
 
   const updateRecruit = async (id, data) => {
-    await RecruitApi.patch(id, data);
+    const updated = await RecruitsApi.patch(id, data);
 
     setRecruits((prev) =>
       prev.map((recruit) =>
-        recruit.id === id ? { ...recruit, ...data } : recruit
+        recruit.id === id ? { ...recruit, ...updated } : recruit
       )
     );
   };
 
   const deleteRecruit = async (id) => {
-    await RecruitApi.delete(id);
+    await RecruitsApi.delete(id);
+
     setRecruits((prev) => prev.filter((recruit) => recruit.id !== id));
   };
 
