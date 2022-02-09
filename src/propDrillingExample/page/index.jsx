@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import RecruitApi from "../../api/recruit";
-
 import RecruitsPage from "./RecruitsPage";
 import RecruitCreatePage from "./RecruitCreatePage";
 import RecruitEditPage from "./RecruitEditPage";
@@ -47,6 +46,7 @@ export default function PropDrillingExample() {
             <RecruitEditPage setRecruits={setRecruits} recruits={recruits} />
           }
         />
+        <Route path="*" element={<div>not found</div>} />
       </Routes>
     </div>
   );

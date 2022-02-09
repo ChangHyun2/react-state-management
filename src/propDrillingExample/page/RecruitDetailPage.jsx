@@ -1,11 +1,17 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
-import RecruitCard from "../components/RecruitCard";
 import Link from "../../components/Link";
+import RecruitCard from "../../components/RecruitCard";
 
 export default function RecruitDetailPage({ recruits }) {
   const { id } = useParams();
+  const navigate = useNavigate();
   const recruit = recruits.find((recruit) => recruit.id === id);
+
+  if (!recruit) {
+    navigate("/prop-drilling");
+    return null;
+  }
 
   return (
     <>

@@ -1,14 +1,5 @@
-import { useNavigate } from "react-router-dom";
-
-export default function RecruitCard({ recruit }) {
-  const navigate = useNavigate();
-
-  if (!recruit) {
-    navigate("/prop-drilling");
-    return null;
-  }
-
-  const {
+export default function RecruitCard({
+  recruit: {
     id,
     title,
     recruit_type,
@@ -19,8 +10,8 @@ export default function RecruitCard({ recruit }) {
     created_at,
     updated_at,
     isPublished,
-  } = recruit;
-
+  },
+}) {
   return (
     <div>
       <ul>

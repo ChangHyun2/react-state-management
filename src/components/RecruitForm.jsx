@@ -1,18 +1,7 @@
 import { useCallback, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import dayjs from "dayjs";
-
-import RecruitApi from "../../api/recruit";
-
-function Field({ field: { label, type }, onChange, value }) {
-  return (
-    <label>
-      <span>{label}</span>
-      <input type={type} onChange={onChange} value={value} />
-    </label>
-  );
-}
+import Field from "./Field";
 
 const fields = [
   [
@@ -55,9 +44,7 @@ const fields = [
   ],
 ];
 
-export default function RecruitForm({ recruit, setRecruits }) {
-  const location = useLocation();
-  const navigate = useNavigate();
+export default function RecruitForm({ recruit, onSubmit }) {
   const [formValues, setFormValues] = useState(
     recruit ?? {
       title: "initial title",
@@ -73,52 +60,27 @@ export default function RecruitForm({ recruit, setRecruits }) {
     e.preventDefault();
     e.stopPropagation();
 
-    try {
-      if (recruit) {
-        const { id } = recruit;
-        await RecruitApi.patch(id, formValues);
-
-        setRecruits((prev) =>
-          prev.map((recruit) =>
-            recruit.id === id ? { ...recruit, ...formValues } : { ...recruit }
-          )
-        );
-      } else {
-        const recruit = await RecruitApi.post(formValues);
-
-        setRecruits((prev) => [...prev, recruit]);
-      }
-    } catch (e) {
-      console.error(e);
-    } finally {
-      navigate(-1);
-    }
+    onSubmit(formValues);
   };
 
   const getFieldProps = useCallback(
-    (field) => ({
-      field,
-      value: formValues[field.name],
+    ({ type, label, name, serializer }) => ({
+      type,
+      label,
+      value: formValues[name],
       onChange: (e) => {
         setFormValues((state) => ({
           ...state,
-          [field.name]: field.serializer
-            ? field.serializer(e.target.value)
-            : e.target.value,
+          [name]: serializer ? serializer(e.target.value) : e.target.value,
         }));
       },
     }),
     [formValues]
   );
 
-  if (location.pathname.split("/").pop() === "edit" && !recruit) {
-    navigate(-1);
-    return null;
-  }
-
   return (
     <>
-      <StyledRecruitForm onSubmit={handleSubmit}>
+      <StyledForm onSubmit={handleSubmit}>
         {fields.map((fieldsRow, i) => (
           <div key={i}>
             {fieldsRow.map((field) => (
@@ -127,37 +89,18 @@ export default function RecruitForm({ recruit, setRecruits }) {
           </div>
         ))}
         <button type="submit">등록</button>
-      </StyledRecruitForm>
+      </StyledForm>
     </>
   );
 }
 
-const StyledRecruitForm = styled.form`
+const StyledForm = styled.form`
   border: 1px solid;
   padding: 10px;
 
   div {
     display: flex;
     flex-wrap: wrap;
-
-    label {
-      display: flex;
-      width: calc(100% / 3 - 10px);
-      justify-content: space-between;
-      padding-right: 10px;
-
-      span {
-        min-width: 80px;
-        text-align: center;
-        border: 1px solid;
-        padding: 4px;
-      }
-
-      input {
-        width: 100%;
-      }
-    }
-
     margin-bottom: 10px;
   }
 
