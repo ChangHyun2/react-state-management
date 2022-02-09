@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import RecruitApi from "../../../api/recruit";
+import RecruitsApi from "../../../api/recruits";
 
 export default function RecruitTableItem({ recruit, setRecruits }) {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ export default function RecruitTableItem({ recruit, setRecruits }) {
     e.stopPropagation();
 
     try {
-      await RecruitApi.delete(id);
+      await RecruitsApi.delete(id);
 
       setRecruits((prev) => prev.filter((recruit) => recruit.id !== id));
     } catch (e) {
@@ -37,7 +37,7 @@ export default function RecruitTableItem({ recruit, setRecruits }) {
     e.stopPropagation();
 
     try {
-      await RecruitApi.patch(id, { isPublished: !recruit.isPublished });
+      await RecruitsApi.patch(id, { isPublished: !recruit.isPublished });
 
       setRecruits((prev) =>
         prev.map((recruit) =>

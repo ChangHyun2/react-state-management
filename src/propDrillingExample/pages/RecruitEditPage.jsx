@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 
-import RecruitApi from "../../api/recruit";
+import RecruitsApi from "../../api/recruits";
 import RecruitForm from "../../components/RecruitForm";
 import Link from "../../components/Link";
 
@@ -18,17 +18,16 @@ export default function RecruitEditPage({ setRecruits, recruits }) {
   const editRecruit = async (formValues) => {
     try {
       const { id } = recruit;
-      await RecruitApi.patch(id, formValues);
+      await RecruitsApi.patch(id, formValues);
 
       setRecruits((prev) =>
         prev.map((recruit) =>
           recruit.id === id ? { ...recruit, ...formValues } : { ...recruit }
         )
       );
+      navigate(`../detail/${id}`);
     } catch (e) {
       console.error(e);
-    } finally {
-      navigate(`../detail/${id}`);
     }
   };
 

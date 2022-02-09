@@ -1,8 +1,10 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router";
+import RecruitTableItem from "./recruitsTable/RecruitTableItem";
 
-import RecruitTableItem from "./recruitTable/RecruitTableItem";
+export default function RecruitsTable({ recruits, setRecruits }) {
+  const navigate = useNavigate();
 
-export default function RecruitTable({ recruits, setRecruits }) {
   return (
     <StyledTable>
       <thead>
@@ -26,7 +28,7 @@ export default function RecruitTable({ recruits, setRecruits }) {
           <RecruitTableItem
             key={recruit.id}
             recruit={recruit}
-            setRecruits={setRecruits}
+            onClick={() => navigate(`detail/${recruit.id}`)}
           />
         ))}
       </tbody>

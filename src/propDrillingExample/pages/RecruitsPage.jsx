@@ -1,5 +1,5 @@
 import Link from "../../components/Link";
-import RecruitTable from "../components/RecruitTable";
+import RecruitsTable from "../components/RecruitsTable";
 
 export default function RecruitsPage({ recruits, setRecruits }) {
   return (
@@ -8,7 +8,7 @@ export default function RecruitsPage({ recruits, setRecruits }) {
         추가
       </Link>
       <hr />
-      <RecruitTable recruits={recruits} setRecruits={setRecruits} />
+      <RecruitsTable recruits={recruits} setRecruits={setRecruits} />
     </>
   );
 }

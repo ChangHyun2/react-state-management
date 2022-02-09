@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import styled from "styled-components";
 import dayjs from "dayjs";
 import Field from "./Field";
@@ -45,12 +45,13 @@ const fields = [
 ];
 
 export default function RecruitForm({ recruit, onSubmit }) {
+  const [submitting, setIsSubmitting] = useState(false);
   const [formValues, setFormValues] = useState(
     recruit ?? {
-      title: "initial title",
-      recruit_type: "initial recruit_type",
-      job: "initial job",
-      career: "initial career",
+      title: "default title",
+      recruit_type: "default recruit_type",
+      job: "default job",
+      career: "default career",
       start_date: "2022-01-01",
       end_date: "2022-01-01",
     }
@@ -60,7 +61,7 @@ export default function RecruitForm({ recruit, onSubmit }) {
     e.preventDefault();
     e.stopPropagation();
 
-    onSubmit(formValues);
+    onSubmit(formValues, setIsSubmitting);
   };
 
   const getFieldProps = useCallback(
@@ -78,6 +79,10 @@ export default function RecruitForm({ recruit, onSubmit }) {
     [formValues]
   );
 
+  useEffect(() => {
+    return () => setFormValues({});
+  }, []);
+
   return (
     <>
       <StyledForm onSubmit={handleSubmit}>
@@ -88,7 +93,9 @@ export default function RecruitForm({ recruit, onSubmit }) {
             ))}
           </div>
         ))}
-        <button type="submit">등록</button>
+        <button type="submit" disabled={submitting}>
+          등록
+        </button>
       </StyledForm>
     </>
   );

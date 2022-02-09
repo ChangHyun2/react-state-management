@@ -9,7 +9,7 @@ export default function RecruitDetailPage({ recruits }) {
   const recruit = recruits.find((recruit) => recruit.id === id);
 
   if (!recruit) {
-    navigate("/prop-drilling");
+    navigate("../");
     return null;
   }
 

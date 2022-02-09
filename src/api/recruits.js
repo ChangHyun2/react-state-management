@@ -74,7 +74,7 @@ const syncLocalStorage = () =>
   );
 
 // recruit api
-export default class RecruitApi {
+export default class RecruitsApi {
   static get(id) {
     return transactionDelay().then(
       () =>

@@ -1,21 +1,22 @@
 import { useNavigate } from "react-router-dom";
 
-import RecruitApi from "../../api/recruit";
+import RecruitsApi from "../../api/recruits";
 import Link from "../../components/Link";
 import RecruitForm from "../../components/RecruitForm";
 
 export default function RecruitCreatePage({ setRecruits }) {
   const navigate = useNavigate();
 
-  const createRecruit = async (formValues) => {
+  const handleSubmit = async (formValues, setIsSubmitting) => {
+    setIsSubmitting(true);
     try {
-      const recruit = await RecruitApi.post(formValues);
-
+      const recruit = await RecruitsApi.post(formValues);
       setRecruits((prev) => [...prev, recruit]);
+      navigate("../");
     } catch (e) {
       console.error(e);
     } finally {
-      navigate("../");
+      setIsSubmitting(false);
     }
   };
 
@@ -25,7 +26,7 @@ export default function RecruitCreatePage({ setRecruits }) {
         뒤로
       </Link>
       <hr />
-      <RecruitForm onSubmit={createRecruit} />
+      <RecruitForm onSubmit={handleSubmit} />
     </>
   );
 }

@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import RecruitTableItem from "./recruitTable/RecruitTableItem.jsx";
+import RecruitTableItem from "./RecruitsTable/RecruitTableItem.jsx";
 
-export default function RecruitTable({ recruits, setRecruits }) {
+export default function RecruitsTable({ recruits, setRecruits }) {
   return (
     <StyledTable>
       <thead>
