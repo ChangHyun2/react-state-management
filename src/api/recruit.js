@@ -79,19 +79,19 @@ export default class RecruitApi {
     return transactionDelay().then(
       () =>
         new Promise((res, rej) => {
-          const recruit =
-            id !== undefined
-              ? recruits.find((recruit) => recruit.id === id)
-              : recruits;
-
-          if (!recruit || Math.random() < FAILURE_RATE) {
+          if (Math.random() < FAILURE_RATE) {
             rej({
               status: ">= 400",
               message: "status >= 400 error",
             });
           }
 
-          res(JSON.parse(JSON.stringify(recruits)));
+          const data =
+            id === undefined
+              ? recruits
+              : recruits.find((recruit) => recruit.id === id);
+
+          res(JSON.parse(JSON.stringify(data)));
         })
     );
   }
@@ -100,8 +100,6 @@ export default class RecruitApi {
     return transactionDelay().then(
       () =>
         new Promise((res, rej) => {
-          const recruit = new Recruit(data);
-
           if (Math.random() < FAILURE_RATE) {
             rej({
               status: ">= 400",
@@ -109,13 +107,14 @@ export default class RecruitApi {
             });
           }
 
-          recruits.push(recruit);
+          const recruit = new Recruit(data);
 
-          res(JSON.parse(JSON.stringify(recruit)));
+          recruits.push(recruit);
+          console.log("db posted", recruits);
 
           syncLocalStorage();
 
-          console.log("db posted", recruits);
+          res(JSON.parse(JSON.stringify(recruit)));
         })
     );
   }
@@ -124,19 +123,18 @@ export default class RecruitApi {
     return transactionDelay().then(
       () =>
         new Promise((res, rej) => {
-          const deletedIdx = recruits.findIndex((recruit) => recruit.id === id);
-          recruits.splice(deletedIdx, 1);
-
-          console.log("db deleted", recruits);
-
-          syncLocalStorage();
-
           if (Math.random() < FAILURE_RATE) {
             rej({
               status: ">= 400",
               message: "status >= 400 error",
             });
           }
+
+          const deletedIdx = recruits.findIndex((recruit) => recruit.id === id);
+          recruits.splice(deletedIdx, 1);
+          console.log("db deleted", recruits);
+
+          syncLocalStorage();
 
           res();
         })
@@ -147,25 +145,23 @@ export default class RecruitApi {
     return transactionDelay().then(
       () =>
         new Promise((res, rej) => {
-          const updatedIdx = recruits.findIndex((recruit) => recruit.id === id);
-          const updated = {
-            ...recruits[updatedIdx],
-            ...data,
-            updated_at: dayjs().format("YYYY-MM-DD"),
-          };
-
-          recruits[updatedIdx] = updated;
-
-          console.log("db updated", recruits);
-
-          syncLocalStorage();
-
           if (Math.random() < FAILURE_RATE) {
             rej({
               status: ">= 400",
               message: "status >= 400 error",
             });
           }
+
+          const updatedIdx = recruits.findIndex((recruit) => recruit.id === id);
+          const updated = {
+            ...recruits[updatedIdx],
+            ...data,
+            updated_at: dayjs().format("YYYY-MM-DD"),
+          };
+          recruits[updatedIdx] = updated;
+          console.log("db updated", recruits);
+
+          syncLocalStorage();
 
           res(JSON.parse(JSON.stringify(updated)));
         })
