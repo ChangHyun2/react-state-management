@@ -4,6 +4,7 @@ const RecruitsContext = createContext();
 
 export const RecruitsContextProvider = ({ children }) => {
   const [recruits, setRecruits] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const addRecruit = async (recruit) => {
     setRecruits((prev) => [...prev, recruit]);
@@ -24,9 +25,16 @@ export const RecruitsContextProvider = ({ children }) => {
   return (
     <RecruitsContext.Provider
       value={{
-        helpers: { setRecruits, addRecruit, updateRecruit, deleteRecruit },
+        helpers: {
+          setRecruits,
+          addRecruit,
+          updateRecruit,
+          deleteRecruit,
+          setIsLoading,
+        },
         state: {
           recruits,
+          isLoading,
         },
       }}
     >

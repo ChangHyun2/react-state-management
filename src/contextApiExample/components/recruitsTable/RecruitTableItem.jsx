@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 
 import RecruitsApi from "../../../api/recruits";
 import { useRecruitsContext } from "../../context/recruits";
@@ -59,7 +58,7 @@ export default function RecruitTableItem({ recruit }) {
   };
 
   return (
-    <StyledTableItem key={id} onClick={handleClick}>
+    <tr key={id} onClick={handleClick}>
       <td>{id}</td>
       <td className="title">{title}</td>
       <td>{recruit_type}</td>
@@ -78,16 +77,6 @@ export default function RecruitTableItem({ recruit }) {
           {isDeleting ? "deleting..." : "del"}
         </button>
       </td>
-    </StyledTableItem>
+    </tr>
   );
 }
-
-const StyledTableItem = styled.tr`
-  th,
-  td {
-    width: calc(100% / 10);
-    border: 1px solid;
-    padding: 10px;
-    text-align: center;
-  }
-`;

@@ -11,11 +11,12 @@ import RecruitDetailPage from "./RecruitDetailPage";
 
 export default function ContextApiExample() {
   const {
-    helpers: { setRecruits },
+    helpers: { setRecruits, setIsLoading },
   } = useRecruitsContext();
 
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
       try {
         const recruits = await RecruitsApi.get();
 
@@ -23,6 +24,7 @@ export default function ContextApiExample() {
       } catch (e) {
         console.error(e);
       }
+      setIsLoading(false);
     })();
   }, []);
 
