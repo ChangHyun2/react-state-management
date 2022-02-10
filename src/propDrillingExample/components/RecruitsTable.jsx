@@ -1,8 +1,13 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router";
 import RecruitTableItem from "./recruitsTable/RecruitTableItem";
+import s from "csd";
 
-export default function RecruitsTable({ recruits, setRecruits }) {
+export default function RecruitsTable({
+  recruits,
+  setRecruits,
+  isLoadingRecruits,
+}) {
   const navigate = useNavigate();
 
   return (
@@ -24,21 +29,36 @@ export default function RecruitsTable({ recruits, setRecruits }) {
         </tr>
       </thead>
       <tbody>
-        {recruits.map((recruit) => (
-          <RecruitTableItem
-            key={recruit.id}
-            recruit={recruit}
-            onClick={() => navigate(`detail/${recruit.id}`)}
-          />
-        ))}
+        {isLoadingRecruits ? (
+          <tr>
+            <td colSpan="8">loading ...</td>
+          </tr>
+        ) : (
+          recruits.map((recruit) => (
+            <RecruitTableItem
+              key={recruit.id}
+              recruit={recruit}
+              setRecruits={setRecruits}
+              onClick={() => navigate(`detail/${recruit.id}`)}
+            />
+          ))
+        )}
       </tbody>
     </StyledTable>
   );
 }
 
 const StyledTable = styled.table`
-  width: 100%;
-  font-size: 14px;
+  ${s.fluid};
+  ${s.h14};
   word-break: break-all;
   border-collapse: collapse;
+
+  th,
+  td {
+    width: calc(100% / 8);
+    border: 1px solid;
+    padding: 10px;
+    text-align: center;
+  }
 `;

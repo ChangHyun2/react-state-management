@@ -9,9 +9,11 @@ import RecruitDetailPage from "./RecruitDetailPage";
 
 export default function PropDrillingExample() {
   const [recruits, setRecruits] = useState([]);
+  const [isLoadingRecruits, setIsLoadingRecruits] = useState(false);
 
   useEffect(() => {
     (async () => {
+      setIsLoadingRecruits(true);
       try {
         const recruits = await RecruitsApi.get();
 
@@ -19,6 +21,7 @@ export default function PropDrillingExample() {
       } catch (e) {
         console.error(e);
       }
+      setIsLoadingRecruits(false);
     })();
   }, []);
 
@@ -29,7 +32,11 @@ export default function PropDrillingExample() {
         <Route
           index
           element={
-            <RecruitsPage recruits={recruits} setRecruits={setRecruits} />
+            <RecruitsPage
+              recruits={recruits}
+              setRecruits={setRecruits}
+              isLoadingRecruits={isLoadingRecruits}
+            />
           }
         />
         <Route
