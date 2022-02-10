@@ -1,14 +1,14 @@
 import RecruitsTable from "../components/RecruitsTable";
 import Link from "../../components/Link";
 
-export default function RecruitsPage() {
+export default function RecruitsPage({ isLoadingRecruits }) {
   return (
     <>
       <Link className="button" to="create">
         추가
       </Link>
       <hr />
-      <RecruitsTable />
+      <RecruitsTable isLoadingRecruits={isLoadingRecruits} />
     </>
   );
 }
