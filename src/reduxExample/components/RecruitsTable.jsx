@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import s from "csd";
 
 import RecruitTableItem from "./recruitsTable/RecruitTableItem";
 
@@ -34,18 +35,16 @@ export default function RecruitsTable() {
 }
 
 const StyledTable = styled.table`
-  width: 100%;
-  font-size: 14px;
+  ${s.fluid};
+  ${s.h14};
   word-break: break-all;
   border-collapse: collapse;
 
-  tr {
-    th,
-    td {
-      width: calc(100% / 10);
-      border: 1px solid;
-      padding: 10px;
-      text-align: center;
-    }
+  th,
+  td {
+    width: calc(100% / 8);
+    border: 1px solid;
+    padding: 10px;
+    text-align: center;
   }
 `;

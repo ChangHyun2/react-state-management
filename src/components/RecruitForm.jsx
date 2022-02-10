@@ -1,6 +1,7 @@
 import { useCallback, useState, useEffect } from "react";
 import styled from "styled-components";
 import dayjs from "dayjs";
+import s from "csd";
 import Field from "./Field";
 
 const fields = [
@@ -106,13 +107,12 @@ const StyledForm = styled.form`
   padding: 10px;
 
   div {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
+    ${s.row};
+    ${s.mb1};
   }
 
   button {
-    width: 100%;
+    ${s.fluid}
     padding: 4px;
   }
 `;

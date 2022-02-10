@@ -46,7 +46,7 @@ export default function Navigation() {
 
 const StyledNavigation = styled.nav`
   ${s.rowCenter};
-  margin-bottom: 20px;
+  ${s.mb2}
 `;
 
 const StyledNavItem = styled.li`

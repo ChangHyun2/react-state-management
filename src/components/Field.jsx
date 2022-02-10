@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import s from "csd";
 
 export default function Field({ label, type, value, onChange }) {
   return (
@@ -10,19 +11,19 @@ export default function Field({ label, type, value, onChange }) {
 }
 
 const StyledField = styled.label`
-  display: flex;
+  ${s.rowSpaceBetween};
+
   width: calc(100% / 3 - 10px);
-  justify-content: space-between;
   padding-right: 10px;
 
   span {
-    min-width: 80px;
+    width: 80px;
     text-align: center;
     border: 1px solid;
     padding: 4px;
   }
 
   input {
-    width: 100%;
+    ${s.grid}
   }
 `;
