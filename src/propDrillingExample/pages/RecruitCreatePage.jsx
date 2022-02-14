@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 
-import RecruitsApi from "../../api/recruits";
 import Link from "../../components/Link";
 import RecruitForm from "../../components/RecruitForm";
+import RecruitsApi from "../../api/recruits";
 
 export default function RecruitCreatePage({ setRecruits }) {
   const navigate = useNavigate();
@@ -15,9 +15,9 @@ export default function RecruitCreatePage({ setRecruits }) {
       navigate("../");
     } catch (e) {
       console.error(e);
-    } finally {
-      setIsSubmitting(false);
+      window.alert(e.message);
     }
+    setIsSubmitting(false);
   };
 
   return (

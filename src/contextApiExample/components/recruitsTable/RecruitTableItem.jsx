@@ -30,31 +30,31 @@ export default function RecruitTableItem({ recruit }) {
 
   const handleClickDeleteButton = async (e) => {
     e.stopPropagation();
-    setIsDeleting(true);
 
+    setIsDeleting(true);
     try {
       await RecruitsApi.delete(id);
       deleteRecruit(id);
     } catch (e) {
       console.error(e);
-    } finally {
-      setIsDeleting(false);
+      window.alert(e.message);
     }
+    setIsDeleting(false);
   };
 
   const handleClickIsPublishedToggler = async (e) => {
     e.stopPropagation();
+
     setIsTogglingPublishStatus(true);
     const updated = { isPublished: !recruit.isPublished };
-
     try {
       await RecruitsApi.patch(id, updated);
       updateRecruit(id, updated);
     } catch (e) {
       console.error(e);
-    } finally {
-      setIsTogglingPublishStatus(false);
+      window.alert(e.message);
     }
+    setIsTogglingPublishStatus(false);
   };
 
   return (

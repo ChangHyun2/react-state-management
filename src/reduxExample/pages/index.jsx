@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 
 import { fetchRecruits } from "../redux/features/recruits";
@@ -10,10 +10,15 @@ import RecruitDetailPage from "./RecruitDetailPage";
 
 export default function ReduxExample() {
   const dispatch = useDispatch();
+  const error = useSelector((state) => state.recruits.error);
 
   useEffect(() => {
     dispatch(fetchRecruits());
   }, [dispatch]);
+
+  if (error) {
+    return <div>{error.message}</div>;
+  }
 
   return (
     <div>

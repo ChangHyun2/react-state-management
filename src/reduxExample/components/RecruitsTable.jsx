@@ -5,7 +5,10 @@ import s from "csd";
 import RecruitTableItem from "./recruitsTable/RecruitTableItem";
 
 export default function RecruitsTable() {
-  const recruits = useSelector((state) => state.recruits.data);
+  const { loading, recruits } = useSelector((state) => ({
+    recruits: state.recruits.data,
+    loading: state.recruits.loading,
+  }));
 
   return (
     <StyledTable>
@@ -26,9 +29,15 @@ export default function RecruitsTable() {
         </tr>
       </thead>
       <tbody>
-        {recruits?.map((recruit) => (
-          <RecruitTableItem key={recruit.id} recruit={recruit} />
-        ))}
+        {loading === "pending" ? (
+          <tr>
+            <td colSpan="8">loading...</td>
+          </tr>
+        ) : (
+          recruits?.map((recruit) => (
+            <RecruitTableItem key={recruit.id} recruit={recruit} />
+          ))
+        )}
       </tbody>
     </StyledTable>
   );

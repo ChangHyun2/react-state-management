@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
 import { deleteRecruit, updateRecruit } from "../../redux/features/recruits";
 
 export default function RecruitTableItem({
@@ -24,30 +25,30 @@ export default function RecruitTableItem({
 
   const handleClickDeleteButton = async (e) => {
     e.stopPropagation();
-    setIsDeleting(true);
 
+    setIsDeleting(true);
     try {
       await dispatch(deleteRecruit(id));
     } catch (e) {
       console.error(e);
-    } finally {
-      setIsDeleting(false);
+      window.alert(e.message);
     }
+    setIsDeleting(false);
   };
 
   const handleClickIsPublishedToggler = async (e) => {
     e.stopPropagation();
-    setIsTogglingPublishStatus(true);
 
+    setIsTogglingPublishStatus(true);
     try {
       await dispatch(
         updateRecruit({ id, data: { isPublished: !isPublished } })
       );
     } catch (e) {
       console.error(e);
-    } finally {
-      setIsTogglingPublishStatus(false);
+      window.alert(e.message);
     }
+    setIsTogglingPublishStatus(false);
   };
 
   return (

@@ -1,9 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
 
-import RecruitsApi from "../../api/recruits";
 import RecruitForm from "../../components/RecruitForm";
 import Link from "../../components/Link";
-
+import RecruitsApi from "../../api/recruits";
 import { useRecruitsContext } from "../context/recruits";
 
 export default function RecruitEditPage() {
@@ -22,16 +21,16 @@ export default function RecruitEditPage() {
   }
 
   const handleSubmit = async (formValues, setIsSubmitting) => {
+    setIsSubmitting(true);
     try {
-      setIsSubmitting(true);
       const updated = await RecruitsApi.patch(id, formValues);
       updateRecruit(id, updated);
       navigate(`../detail/${id}`);
     } catch (e) {
       console.error(e);
-    } finally {
-      setIsSubmitting(false);
+      window.alert(e.message);
     }
+    setIsSubmitting(false);
   };
 
   return (

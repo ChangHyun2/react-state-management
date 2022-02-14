@@ -1,9 +1,9 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { updateRecruit } from "../redux/features/recruits";
 import RecruitForm from "../../components/RecruitForm";
 import Link from "../../components/Link";
+import { updateRecruit } from "../redux/features/recruits";
 
 export default function RecruitEditPage() {
   const { id } = useParams();
@@ -11,7 +11,6 @@ export default function RecruitEditPage() {
   const navigate = useNavigate();
 
   const recruits = useSelector((state) => state.recruits.data);
-
   const recruit = recruits.find((recruit) => recruit.id === id);
 
   const handleSubmit = async (formValues, setIsSubmitting) => {
@@ -21,9 +20,9 @@ export default function RecruitEditPage() {
       navigate(`../detail/${id}`);
     } catch (e) {
       console.error(e);
-    } finally {
-      setIsSubmitting(false);
+      window.alert(e.message);
     }
+    setIsSubmitting(false);
   };
 
   return (

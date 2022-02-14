@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import { addRecruit } from "../redux/features/recruits";
 import RecruitForm from "../../components/RecruitForm";
 import Link from "../../components/Link";
+import { addRecruit } from "../redux/features/recruits";
 
 export default function RecruitCreatePage() {
   const dispatch = useDispatch();
@@ -11,7 +11,6 @@ export default function RecruitCreatePage() {
 
   const handleSubmit = async (formValues, setIsSubmitting) => {
     setIsSubmitting(true);
-
     try {
       const {
         payload: { id },
@@ -20,9 +19,9 @@ export default function RecruitCreatePage() {
       navigate(`../detail/${id}`);
     } catch (e) {
       console.error(e);
-    } finally {
-      setIsSubmitting(false);
+      window.alert(e.message);
     }
+    setIsSubmitting(false);
   };
 
   return (

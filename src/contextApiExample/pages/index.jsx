@@ -1,9 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import RecruitsApi from "../../api/recruits";
 import { useRecruitsContext } from "../context/recruits";
-
 import RecruitsPage from "./RecruitsPage";
 import RecruitCreatePage from "./RecruitCreatePage";
 import RecruitEditPage from "./RecruitEditPage";
@@ -14,6 +13,8 @@ export default function ContextApiExample() {
     helpers: { setRecruits, setIsLoading },
   } = useRecruitsContext();
 
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     (async () => {
       setIsLoading(true);
@@ -22,11 +23,16 @@ export default function ContextApiExample() {
 
         setRecruits(recruits);
       } catch (e) {
+        setError(e);
         console.error(e);
       }
       setIsLoading(false);
     })();
   }, []);
+
+  if (error) {
+    return <div>{error.message}</div>;
+  }
 
   return (
     <div>

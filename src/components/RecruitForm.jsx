@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState } from "react";
 import styled from "styled-components";
 import dayjs from "dayjs";
 import s from "csd";
@@ -79,10 +79,6 @@ export default function RecruitForm({ recruit, onSubmit }) {
     }),
     [formValues]
   );
-
-  useEffect(() => {
-    return () => setFormValues({});
-  }, []);
 
   return (
     <>

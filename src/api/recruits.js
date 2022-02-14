@@ -1,9 +1,8 @@
 import dayjs from "dayjs";
 import { v4 as uuidv4 } from "uuid";
 
-// constants
-export const FAILURE_RATE = 0;
-export const HTTP_TRANSACTION_SEC = 1000;
+export const FAILURE_RATE = 0.1;
+export const HTTP_TRANSACTION_SEC = 500;
 
 class Recruit {
   constructor({

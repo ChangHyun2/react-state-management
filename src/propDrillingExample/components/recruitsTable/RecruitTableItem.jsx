@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import { useNavigate } from "react-router-dom";
 
 import RecruitsApi from "../../../api/recruits";
@@ -26,6 +25,7 @@ export default function RecruitTableItem({ recruit, setRecruits }) {
 
   const handleClickDeleteButton = async (e) => {
     e.stopPropagation();
+
     setIsDeleting(true);
     try {
       await RecruitsApi.delete(id);
@@ -33,6 +33,7 @@ export default function RecruitTableItem({ recruit, setRecruits }) {
       setRecruits((prev) => prev.filter((recruit) => recruit.id !== id));
     } catch (e) {
       console.error(e);
+      window.alert(e.message);
     }
     setIsDeleting(false);
   };
@@ -51,6 +52,7 @@ export default function RecruitTableItem({ recruit, setRecruits }) {
       );
     } catch (e) {
       console.error(e);
+      window.alert(e.message);
     }
     setIsTogglingPublishStatus(false);
   };

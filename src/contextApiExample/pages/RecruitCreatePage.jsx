@@ -12,16 +12,16 @@ export default function RecruitCreatePage() {
   } = useRecruitsContext();
 
   const handleSubmit = async (formValues, setIsSubmitting) => {
+    setIsSubmitting(true);
     try {
-      setIsSubmitting(true);
       const created = await RecruitsApi.post(formValues);
       addRecruit(created);
       navigate("../");
     } catch (e) {
       console.error(e);
-    } finally {
-      setIsSubmitting(false);
+      window.alert(e.message);
     }
+    setIsSubmitting(false);
   };
 
   return (

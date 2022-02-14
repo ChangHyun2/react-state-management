@@ -1,8 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
 
-import RecruitsApi from "../../api/recruits";
 import RecruitForm from "../../components/RecruitForm";
 import Link from "../../components/Link";
+import RecruitsApi from "../../api/recruits";
 
 export default function RecruitEditPage({ setRecruits, recruits }) {
   const { id } = useParams();
@@ -15,7 +15,7 @@ export default function RecruitEditPage({ setRecruits, recruits }) {
     return null;
   }
 
-  const editRecruit = async (formValues) => {
+  const handleSubmit = async (formValues) => {
     try {
       const { id } = recruit;
       await RecruitsApi.patch(id, formValues);
@@ -28,6 +28,7 @@ export default function RecruitEditPage({ setRecruits, recruits }) {
       navigate(`../detail/${id}`);
     } catch (e) {
       console.error(e);
+      window.alert(e);
     }
   };
 
@@ -37,7 +38,7 @@ export default function RecruitEditPage({ setRecruits, recruits }) {
         뒤로
       </Link>
       <hr />
-      <RecruitForm recruit={recruit} onSubmit={editRecruit} />
+      <RecruitForm recruit={recruit} onSubmit={handleSubmit} />
     </>
   );
 }

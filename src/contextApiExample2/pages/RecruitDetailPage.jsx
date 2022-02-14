@@ -1,8 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
 
-import { useRecruitsContext } from "../context/recruits";
 import RecruitCard from "../../components/RecruitCard";
 import Link from "../../components/Link";
+import { useRecruitsContext } from "../context/recruits";
 
 export default function RecruitDetailPage() {
   const { id } = useParams();

@@ -4,16 +4,12 @@ import RecruitsApi from "../../api/recruits";
 
 const RecruitsContext2 = createContext();
 
-const MAX_RETRY_COUNT = 3;
-
 export const RecruitsContext2Provider = ({ children }) => {
   const [recruits, setRecruits] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [retryCount, setRetryCount] = useState(0);
 
   const fetchRecruits = async () => {
-    console.log("fetch", retryCount);
     setIsLoading(true);
     try {
       const recruits = await RecruitsApi.get();
@@ -21,10 +17,8 @@ export const RecruitsContext2Provider = ({ children }) => {
       setError(null);
     } catch (e) {
       setError(e);
-    } finally {
-      setIsLoading(false);
-      setRetryCount((prev) => prev + 1);
     }
+    setIsLoading(false);
   };
 
   const addRecruit = async (data) => {
@@ -51,16 +45,6 @@ export const RecruitsContext2Provider = ({ children }) => {
     fetchRecruits();
   }, []);
 
-  useEffect(() => {
-    if (retryCount === MAX_RETRY_COUNT) {
-      return;
-    }
-
-    if (error) {
-      fetchRecruits();
-    }
-  }, [retryCount]);
-
   return (
     <RecruitsContext2.Provider
       value={{
@@ -72,7 +56,6 @@ export const RecruitsContext2Provider = ({ children }) => {
           fetchRecruits,
         },
         state: {
-          isError: error && retryCount === MAX_RETRY_COUNT,
           error,
           recruits,
           isLoading,

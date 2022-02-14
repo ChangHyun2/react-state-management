@@ -6,12 +6,8 @@ import RecruitTableItem from "./recruitsTable/RecruitTableItem";
 
 export default function RecruitsTable() {
   const {
-    state: { recruits, error, isError, isLoading },
+    state: { recruits, isLoading },
   } = useRecruitsContext();
-
-  if (isError) {
-    return <div>{error.message}</div>;
-  }
 
   return (
     <StyledTable>

@@ -1,7 +1,8 @@
-import styled from "styled-components";
 import { useNavigate } from "react-router";
-import RecruitTableItem from "./recruitsTable/RecruitTableItem";
+import styled from "styled-components";
 import s from "csd";
+
+import RecruitTableItem from "./recruitsTable/RecruitTableItem";
 
 export default function RecruitsTable({
   recruits,

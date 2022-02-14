@@ -1,5 +1,5 @@
-import RecruitsTable from "../components/RecruitsTable";
 import Link from "../../components/Link";
+import RecruitsTable from "../components/RecruitsTable";
 
 export default function RecruitsPage({ isLoadingRecruits }) {
   return (

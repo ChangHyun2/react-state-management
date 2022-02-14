@@ -11,15 +11,15 @@ export default function RecruitCreatePage() {
   } = useRecruitsContext();
 
   const handleSubmit = async (formValues, setIsSubmitting) => {
+    setIsSubmitting(true);
     try {
-      setIsSubmitting(true);
       await addRecruit(formValues);
       navigate("../");
     } catch (e) {
       console.error(e);
-    } finally {
-      setIsSubmitting(false);
+      window.alert(e.message);
     }
+    setIsSubmitting(false);
   };
 
   return (

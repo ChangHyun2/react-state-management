@@ -10,6 +10,7 @@ import RecruitDetailPage from "./RecruitDetailPage";
 export default function PropDrillingExample() {
   const [recruits, setRecruits] = useState([]);
   const [isLoadingRecruits, setIsLoadingRecruits] = useState(false);
+  const [fetchRecruitsError, setFetchRecruitsError] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -18,12 +19,18 @@ export default function PropDrillingExample() {
         const recruits = await RecruitsApi.get();
 
         setRecruits(recruits);
+        setFetchRecruitsError(null);
       } catch (e) {
         console.error(e);
+        setFetchRecruitsError(e);
       }
       setIsLoadingRecruits(false);
     })();
   }, []);
+
+  if (fetchRecruitsError) {
+    return <div>{fetchRecruitsError.message}</div>;
+  }
 
   return (
     <div>
@@ -36,6 +43,7 @@ export default function PropDrillingExample() {
               recruits={recruits}
               setRecruits={setRecruits}
               isLoadingRecruits={isLoadingRecruits}
+              fetchRecruitsError={fetchRecruitsError}
             />
           }
         />
