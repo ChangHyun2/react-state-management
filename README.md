@@ -1,5 +1,3 @@
-'리엑트 상태 관리 기법'을 주제로 사내 기술 블로그 글을 작성하기 위해 구현 중인 레포입니다.
-
 codesandbox preview : https://codesandbox.io/s/old-grass-sveeq?file=/src/index.tsx
 
 TODO
